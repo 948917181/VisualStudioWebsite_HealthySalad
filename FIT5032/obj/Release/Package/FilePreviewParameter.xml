@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="Default Web Site" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^C:\\Users\\chunh\\source\\repos\\FIT5032\\FIT5032\\obj\\Release\\Package\\PackageTmp$" />
+    <parameterEntry kind="ProviderPath" scope="setAcl" match="^C:\\Users\\chunh\\source\\repos\\FIT5032\\FIT5032\\obj\\Release\\Package\\PackageTmp$" />
+  </parameter>
+  <parameter name="Add write permission to App_Data Folder" description="Add write permission to App_Data folder" value="Default Web Site/App_Data" tags="Hidden">
+    <parameterEntry kind="ProviderPath" scope="setAcl" match="^C:\\Users\\chunh\\source\\repos\\FIT5032\\FIT5032\\obj\\Release\\Package\\PackageTmp\\App_Data$" />
+  </parameter>
+  <parameter name="DefaultConnection-Web.config Connection String" description="" value="Data Source=(LocalDb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\aspnet-FIT5032-20181012114348.mdf;Initial Catalog=aspnet-FIT5032-20181012114348;Integrated Security=True" tags="">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\chunh\\source\\repos\\FIT5032\\FIT5032\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DefaultConnection']/@connectionString" />
+  </parameter>
+  <parameter name="FIT5032_ModelsContainer-Web.config Connection String" description="" value="metadata=res://*/Models.FIT5032_Models.csdl|res://*/Models.FIT5032_Models.ssdl|res://*/Models.FIT5032_Models.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=(LocalDB)\MSSQLLocalDB;attachdbfilename=|DataDirectory|\FIT5032_Database.mdf;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework&quot;" tags="">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\chunh\\source\\repos\\FIT5032\\FIT5032\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='FIT5032_ModelsContainer']/@connectionString" />
+  </parameter>
+</parameters>
