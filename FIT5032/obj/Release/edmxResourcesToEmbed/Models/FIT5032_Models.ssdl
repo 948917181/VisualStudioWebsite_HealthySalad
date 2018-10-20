@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="FIT5032_Models.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="FIT5032_ModelsStoreContainer">
+    <EntitySet Name="Recipes" EntityType="FIT5032_Models.Store.Recipes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Reviews" EntityType="FIT5032_Models.Store.Reviews" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="RecipeReview" Association="FIT5032_Models.Store.RecipeReview">
+      <End Role="Recipe" EntitySet="Recipes" />
+      <End Role="Review" EntitySet="Reviews" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Recipes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RecipeTitle" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Author" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="PublishDate" Type="datetime" Nullable="false" />
+    <Property Name="Content" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Reviews">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Reviewer" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="PublishDate" Type="datetime" Nullable="false" />
+    <Property Name="Content" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="RecipeId" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="RecipeReview">
+    <End Role="Recipe" Type="FIT5032_Models.Store.Recipes" Multiplicity="1" />
+    <End Role="Review" Type="FIT5032_Models.Store.Reviews" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Recipe">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Review">
+        <PropertyRef Name="RecipeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
