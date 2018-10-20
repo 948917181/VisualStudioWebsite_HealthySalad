@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="FIT5032_Models" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+  <EntityContainer Name="FIT5032_ModelsContainer" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Recipes" EntityType="FIT5032_Models.Recipe" />
+    <EntitySet Name="Reviews" EntityType="FIT5032_Models.Review" />
+    <AssociationSet Name="RecipeReview" Association="FIT5032_Models.RecipeReview">
+      <End Role="Recipe" EntitySet="Recipes" />
+      <End Role="Review" EntitySet="Reviews" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Recipe">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RecipeTitle" Type="String" Nullable="false" />
+    <Property Name="Author" Type="String" Nullable="false" />
+    <Property Name="PublishDate" Type="DateTime" Nullable="false" />
+    <Property Name="Content" Type="String" Nullable="false" />
+    <NavigationProperty Name="Reviews" Relationship="FIT5032_Models.RecipeReview" FromRole="Recipe" ToRole="Review" />
+  </EntityType>
+  <EntityType Name="Review">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Reviewer" Type="String" Nullable="false" />
+    <Property Name="PublishDate" Type="DateTime" Nullable="false" />
+    <Property Name="Content" Type="String" Nullable="false" />
+    <NavigationProperty Name="Recipe" Relationship="FIT5032_Models.RecipeReview" FromRole="Review" ToRole="Recipe" />
+    <Property Name="RecipeId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <Association Name="RecipeReview">
+    <End Type="FIT5032_Models.Recipe" Role="Recipe" Multiplicity="1" />
+    <End Type="FIT5032_Models.Review" Role="Review" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Recipe">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Review">
+        <PropertyRef Name="RecipeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
