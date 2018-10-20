@@ -1,0 +1,158 @@
+﻿@{
+    /**/
+
+    ViewBag.Title = "Home Page";
+}
+
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Home</title>
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.9/css/mdb.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+          rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic'
+          rel='stylesheet' type='text/css'>
+
+    <!-- Plugin CSS -->
+    <link href="vendor/magnific-popup/magnific-popup.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/creative.min.css" rel="stylesheet">
+    <link href="css/site.css" rel="stylesheet">
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <!--JQuery-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <style>
+        .link-box {
+            margin: 0px 20px 0px;
+            height: 100%;
+        }
+
+            .link-box:hover {
+                cursor: pointer;
+                margin-top: -20px;
+                box-shadow: 10px 10px 5px #888888;
+            }
+
+        .icon1 {
+            background-color: white;
+            background-image: url("../../Images/log.png");
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            height: 100%;
+        }
+
+        .icon2 {
+            background-color: white;
+            background-image: url("/Images/communication.png");
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            height: 100%;
+        }
+
+        .icon3 {
+            background-color: white;
+            background-image: url("../../Images/position.png");
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            height: 100%;
+        }
+    </style>
+
+</head>
+<body>
+
+    <div class="row" style="background-color:white;margin:0px;padding:0px;">
+
+        <div class="col-md-7" style="padding:0px">
+
+            <picture>
+                <source media="(max-width: 949px)" srcset="~/Images/home_640.png">
+                <source media="(min-width: 950px)" srcset="~/Images/home3.png">
+                <img src="~/Images/home3.png" alt="home3">
+            </picture>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-md-12" style="text-align:center;">
+            <br />
+            <h1>Our Services</h1>
+            <br />
+        </div>
+    </div>
+
+
+
+
+
+    <div class="row" style="height:60%">
+
+        <div class="row">
+            <div class="col-md-1"></div>
+
+            <div class="col-md-3 link-box" style="background-color: lightseagreen">
+                <div class="row" style="height: 100px">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8 icon1" style="background-color: lightseagreen"></div>
+                    <div class="col-md-2"></div>
+                </div>
+
+                <div class="row" style="color:white">
+                    <h1 style="text-align: center;margin:auto;"> Sign Up </h1>
+                    <p style="margin: 20px 20px 20px;text-align: justify;">You can register and log in your account!</p>
+                </div>
+
+            </div>
+
+            <div class="col-md-3 link-box clearfix" style="background-color:lightskyblue">
+                <div class="row" style="height: 100px">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8 icon2" style="background-color: lightskyblue"></div>
+                    <div class="col-md-2"></div>
+                </div>
+
+                <div class="row" style="color:white">
+                    <h1 style="text-align: center;margin:auto;">Read and Publish Recipes</h1>
+                    <p style="margin: 20px 20px 20px;text-align: justify;">
+                       You can read and salad recipes published by others and publish you own recipes. The published recipes will be reviewed by experts!
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-3 link-box clearfix" style="background-color: lightsalmon">
+                <div class="row" style="height: 100px">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8 icon3" style="background-color: lightsalmon"></div>
+                    <div class="col-md-2"></div>
+                </div>
+
+                <div class="row" style="color:white">
+                    <h1 style="text-align: center;margin:auto;">Find the Salad Restaurants</h1>
+                    <p style="margin: 20px 20px 20px;text-align: justify;">
+                        Do you Want to eat salad iutside? Map function could help you to find the salad restaurants around you!
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-1 link-box clearfix" style="background-color:white">
+            </div>
+        </div>
+
+    </div>
+    <div class="row clearfix"></div>
+</body>
+</html>
