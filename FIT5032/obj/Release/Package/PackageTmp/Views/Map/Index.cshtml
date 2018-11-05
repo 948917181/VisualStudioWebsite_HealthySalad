@@ -1,0 +1,211 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <!--JQuery-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--Stuff for google maps-->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh9Y0nj40KIlSF3_Ob8Iwr8mmeZoJ0zRQ&libraries=places&callback=getPosition"></script>
+    <script>
+
+        var map;
+        var infowindow;
+        var service;
+        var allMarkers = [];
+        var allPlaces = [];
+        var userPos;
+
+        function searchMap(pos) {
+            var request = {
+                query: "salad",
+                fields: ['geometry', 'name', 'formatted_address', 'opening_hours', 'place_id',],
+                location: pos,
+                radius: 5000
+            }
+            service.textSearch(request, callback);
+        }
+
+        function initMap(pos) {
+            //Map initialsiser. Uses a listener for when 'dragend' is done
+            //If the frame of the map has less than 5 flags, it'll do the search
+            //again.
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: pos,
+                zoom: 13
+            });
+            service = new google.maps.places.PlacesService(map);
+            infowindow = new google.maps.InfoWindow();
+            searchMap(pos);
+
+            //Add a marker for the gathered position, for reference
+            var userLocation = new google.maps.Marker({
+                map: map,
+                position: pos,
+                animation: google.maps.Animation.BOUNCE
+            });
+            google.maps.event.addListener(userLocation, 'click', function () {
+                infowindow.setContent("Your Location");
+                infowindow.open(map, this);
+            })
+
+            google.maps.event.addDomListener(
+                map, 'dragend',
+                function () {
+                    newCenter = map.getCenter();
+                    newPos = { lat: newCenter.lat(), lng: newCenter.lng() }
+                    var visCount = 0;
+                    for (i = 0; i < allMarkers.length; i++) {
+                        if (map.getBounds().contains(allMarkers[i].position)) {
+                            visCount += 1;
+                        };
+                    };
+                    if (visCount <= 5) {
+                        searchMap(newPos);
+                        console.log("New search done.");
+                        console.log("Markers:");
+                        console.log(allMarkers.length);
+                    };
+                });
+        }
+
+        function getPosition() {
+            //This method returns a position to initialise the google maps
+            //with. If no position is there/available, a default one is returned
+            var pos;
+            function setPos(position) {
+                pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                userPos = pos;
+                //console.log("Got lat lng successfully:");
+                //console.log(pos);
+                initMap(pos);
+            }
+
+            function defaultPos(err) {
+                pos = { lat: -37.876766, lng: 145.044270 };
+                console.log("Setting default lat lng (Centre of Caulfield):");
+                console.log(pos);
+                userPos = pos;
+                initMap(pos);
+            }
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(setPos, defaultPos);
+            } else {
+                defaultPos(null);
+            }
+        }
+
+        function callback(results, status) {
+            //Callback fro when place search is complete.
+            if (status === google.maps.places.PlacesServiceStatus.OK) {
+                for (var i = 0; i < results.length; i++) {
+                    createMarker(results[i]);
+                }
+            }
+        }
+
+        function checkPhone(Id) {
+            //This method looks locally for phone numbers. If not found - it pings
+            //the google places API for it. Built in so we don't end up paying out
+            //our eyeballs for it.
+            console.log("checkPhone() function running");
+            for (i = 0; i < allPlaces.length; i++) {
+                if (Id == allPlaces[i].place_id) {
+                    console.log("Got corresponding entry for allPlaces...")
+                    if (typeof allPlaces[i].phone == 'undefined') {
+                        service.getDetails({ placeId: Id, fields: ['formatted_phone_number'] },
+                            function (result, status) {
+                                console.log("Internal get details call:");
+                                console.log(result);
+                                if (status == google.maps.places.PlacesServiceStatus.OK) {
+                                    $("#phone").text(result.formatted_phone_number);
+                                    allPlaces[i].phone = result.formatted_phone_number;
+                                } else { console.log(status); }
+                            });
+                    } else { $("#phone").text(allPlaces[i].phone); }
+                    break;
+                };
+            };
+        };
+
+        function getDirectionsButton(place) {
+            //This function simply changes the html within the
+            //button div, and updates the to address, as well as the from
+            //address (using current location)
+            var urlLink = "https://www.google.com.au/maps/dir/"
+            urlLink = urlLink + userPos.lat + " " + userPos.lng + "/" //Default location as a placeholder
+            urlLink = urlLink + place.geometry.location.lat() + " " + place.geometry.location.lng() + "/"
+
+            var htmlString = '<a href="' + urlLink + ' role="button" target="_blank" class="btn btn-primary btn-lg">Get Directions</a>'
+            $("#getDirectionsButton").html(htmlString)
+        }
+
+        function createMarker(place) {
+            var exists = false;
+            for (i = 0; i < allMarkers.length; i++) {
+                if (allMarkers[i].position == place.geometry.location) {
+                    exists = true;
+                }
+            };
+            if (!exists) {
+                allPlaces.push(place);
+                var placeLoc = place.geometry.location;
+                var marker = new google.maps.Marker({
+                    map: map,
+                    position: place.geometry.location,
+                });
+                google.maps.event.addListener(marker, 'click', function () {
+                    $("#address").text(place.formatted_address);
+                    $("#placename").text(place.name);
+                    checkPhone(place.place_id);
+                    getDirectionsButton(place);
+                    infowindow.setContent(place.name);
+                    infowindow.open(map, this);
+                })
+            };
+            allMarkers.push(marker);
+        };
+
+    </script>
+</head>
+<body>
+    <div>
+        <h1>Exploring Salad Restaurants Around You</h1>
+    </div>
+    <div class="row" style="margin: 30px">
+        <div class="col-md-10 col-md-offset-1" id="MapCanvas" style="border-radius: 20px;">
+            <div style="height:350px; width: 100%;" id=map></div>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 15px">
+        <div class="col-md-6 col-md-offset-3" style="background-color: lightblue;padding-bottom: 20px;border-radius: 20px;">
+            <h3>Details of Clicked Salad Restaurant</h3>
+            <table class="table-hover text-white">
+                <tr>
+                    <th class="col-md-3"><strong>Name</strong></th>
+                    <td class="col-md-9" id="placename">Select a Place</td>
+                </tr>
+                <tr>
+                    <th class="col-md-3"><strong>Address</strong></th>
+                    <td class="col-md-9" id="address">No flag selected</td>
+                </tr>
+                <tr>
+                    <th class="col-md-3"><strong>Phone Number</strong></th>
+                    <td class="col-md-9" id="phone">Local phone number</td>
+                </tr>
+            </table>
+            <br>
+            <div id="getDirectionsButton" class="text-center">
+                <button href="https://www.google.com.au/maps/dir/" role="button" class="btn btn-primary btn-lg" disabled>Get Directions</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
